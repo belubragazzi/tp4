@@ -1,39 +1,71 @@
 "use client"
-
-import { useEffect, useState } from "react";
-import { Listado } from "./Modelo";
-import Link from 'next/link'
+import { useState, useEffect } from "react";
+import Login from "../components/Login"; 
+import Listado from "../components/Listado";
+import {Home} from "./agregar/page";
 import { api } from "./utils";
-import Ciudad from "../components/Ciudad";
+import { Cuenta } from "./Modelo";
 
-const LISTADO_INICIAL: Listado = { ciudades: [] };
+//const LISTADO_INICIAL: Cuenta = { ciudades: [] };
 
-export default function Home() {
-  const [listado, setListado] = useState<Listado>(LISTADO_INICIAL);
+export default function Index() {
+  const [claveMaestra, setClaveMaestra] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [listado, setListado] = useState<Cuenta[]>([]);
+
 
   useEffect(() => {
-    api<Listado>('/v1/listado')
-      .then((data: Listado) => {
+    // Assuming you have a URL to fetch from
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // LLAMAN A TRAER LISTADO
+        //const data = await response.json();
+        //setListado(data);
+        
+      api<Cuenta[]>('/v1/listado') //que agregamos?
+      .then((data: Cuenta[]) => {
         setListado(data);
       })
-  }, []);
+  
+      } catch (error) {
+        console.error("Failed to fetch listado:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    if (claveMaestra !== "") {
+      fetchData();
+    }
+  }, [claveMaestra]); 
 
-
+    
   return (
-    <>
-      <h1 className="text-3xl mb-8">Listado</h1>
+    <div className="px-28">
+        {claveMaestra ==="" ? (
+            <Login setClaveMaestra={setClaveMaestra}></Login>
+        ) : loading ? (
+          <div>Cargando...</div>
 
-      <Link href="/agregar" className="btn btn-primary" prefetch={true}>
-        Agregar Ciudad
-      </Link>
+        ) : (
+          <div>
+            <div>
+            <Home></Home>
+            </div>
 
-      <div className="grid flex 
-        lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 
-        gap-8 p-4">
-        {listado.ciudades.map(c =>
-          <Ciudad key={c.id} ciudad={c}></Ciudad>
-        )}
-      </div>
-    </>
+            <div className="grid flex 
+            lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 
+            gap-8 p-4">
+            {listado.map(c =>
+              <Listado key={c.contrasenia} listado={c}></Listado>
+            )}
+          </div>
+
+        </div>
+
+        )
+        }
+    </div>
   );
 }

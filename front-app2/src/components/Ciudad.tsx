@@ -1,6 +1,6 @@
-// Ciudad.tsx
-export default interface CiudadProps {
-    ciudad: Ciudad
+/* // Ciudad.tsx
+export default interface CiudadProps { //info que necesita el componente para funcionar
+    ciudad: Ciudad //clave maestra
 }
 
 function EmojiDeTemperatura(temperatura: number): string {
@@ -24,4 +24,4 @@ export default function Ciudad(props: CiudadProps) {
             <p className="mb-10 text-5xl center text-center">{props.ciudad.temperatura}° {EmojiDeTemperatura(props.ciudad.temperatura)}</p>
         </div>
     )
-}
+} */

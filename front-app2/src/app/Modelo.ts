@@ -1,4 +1,4 @@
-export interface Ciudad {
+/* export interface Ciudad {
     id: number,
     nombre: string,
     temperatura: number
@@ -11,3 +11,13 @@ export interface Alerta {
     nombreCiudad: string,
     temperaturaActual: number
 }
+ */
+export interface Cuenta {
+    id: number,
+    usuario : string,
+    contrasenia : string,
+    nombreWeb : string
+}
+/* export interface Listado {
+    cuentas: Cuenta[]
+} */
